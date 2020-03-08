@@ -1,4 +1,4 @@
-package com.myCompanyName.myProjectName;
+package com.onboarding.firas;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

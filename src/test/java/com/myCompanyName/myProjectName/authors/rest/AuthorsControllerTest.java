@@ -1,12 +1,12 @@
-package com.myCompanyName.myProjectName.authors.rest;
+package com.onboarding.firas.authors.rest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-import com.myCompanyName.myProjectName.generated.model.AuthorList;
-import com.myCompanyName.myProjectName.generated.model.Author;
+import com.onboarding.firas.generated.model.AuthorList;
+import com.onboarding.firas.generated.model.Author;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;

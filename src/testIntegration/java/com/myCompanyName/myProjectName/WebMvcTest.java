@@ -1,4 +1,4 @@
-package com.myCompanyName.myProjectName;
+package com.onboarding.firas;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

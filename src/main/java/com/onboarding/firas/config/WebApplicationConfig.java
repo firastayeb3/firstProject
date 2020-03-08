@@ -1,4 +1,4 @@
-package com.myCompanyName.myProjectName.config;
+package com.onboarding.firas.config;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

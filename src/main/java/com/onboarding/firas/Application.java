@@ -1,4 +1,4 @@
-package com.myCompanyName.myProjectName;
+package com.onboarding.firas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -2,7 +2,7 @@ openapi: '3.0.2'
 
 info:
   version: 1.0.0
-  title: myCompanyName-myProjectName
+  title: onboarding-firas
 
 servers:
   - url: '{protocol}://localhost'
@@ -59,6 +59,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/author'
 
+  /testVI:
+    get:
+      tags:
+        - testVI
+      operationId: getStringTest
+      responses:
+        200:
+          description: operation successful
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/testVI'
+
 components:
   schemas:
 
@@ -96,6 +109,22 @@ components:
         firstname:
           type: string
         lastname:
+          type: string
+        _links:
+          type: object
+          required:
+            - self
+          properties:
+            self:
+              $ref: '#/components/schemas/halLink'
+
+    testVI:
+      type: object
+      description: string test
+      required:
+        - value
+      properties:
+        value:
           type: string
         _links:
           type: object

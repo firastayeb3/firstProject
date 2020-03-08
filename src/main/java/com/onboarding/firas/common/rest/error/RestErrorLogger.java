@@ -1,6 +1,6 @@
-package com.myCompanyName.myProjectName.common.rest.error;
+package com.onboarding.firas.common.rest.error;
 
-import com.myCompanyName.myProjectName.generated.model.Error;
+import com.onboarding.firas.generated.model.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
