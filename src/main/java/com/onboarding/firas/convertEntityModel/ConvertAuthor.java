@@ -4,9 +4,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.onboarding.firas.accessingdatajpa.AuthorEntity;
 import com.onboarding.firas.authors.rest.AuthorController;
+import com.onboarding.firas.common.rest.controller.BaseController;
 import com.onboarding.firas.generated.model.Author;
 import com.onboarding.firas.generated.model.AuthorLinks;
 import com.onboarding.firas.generated.model.AuthorList;
+import com.onboarding.firas.generated.model.AuthorListLinks;
 import com.onboarding.firas.generated.model.HalLink;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,8 @@ public class ConvertAuthor {
     for (AuthorEntity author:entityList){
       list.addEmbeddedItem(this.convertEntityToModel( author));
     }
+    list.links(new AuthorListLinks()
+        .self(BaseController.getHalGetLink(methodOn(new AuthorController().getClass()).getAuthors(null, null))));
     return list;
   }
 
