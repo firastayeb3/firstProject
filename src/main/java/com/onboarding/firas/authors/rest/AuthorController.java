@@ -42,7 +42,7 @@ public class AuthorController extends BaseController implements AuthorsApi {
       @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
       @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset) {
 
-    Author author1 = new Author().id(1L)
+    /*Author author1 = new Author().id(1L)
         .firstname("Max")
         .lastname("Mustermann")
         .links(new AuthorLinks().self(getAuthorLink(1L)));
@@ -54,22 +54,22 @@ public class AuthorController extends BaseController implements AuthorsApi {
 
     //convert model to entity and save to DB
     this.authorService.addAuthor(this.convertAuthor.convertModelToEntity(author1));
-    this.authorService.addAuthor(this.convertAuthor.convertModelToEntity(author2));
+    this.authorService.addAuthor(this.convertAuthor.convertModelToEntity(author2));*/
 
     //get entity from DB
     //Author author11 = this.convertAuthor.convertEntityToModel(this.authorService.findAll().get(0));
     //Author author22 = this.convertAuthor.convertEntityToModel(this.authorService.findAll().get(1));
 
-    AuthorList authorList = new AuthorList()
+    /*AuthorList authorList = new AuthorList()
         .embedded(Stream.of(author1, author2).collect(Collectors.toList()))
         .links(new AuthorListLinks()
-            .self(getHalGetLink(methodOn(this.getClass()).getAuthors(limit, offset))));
+            .self(getHalGetLink(methodOn(this.getClass()).getAuthors(limit, offset))));*/
 
    // AuthorList authorList = this.convertAuthor.EntityListToModelList(this.authorService.findAll());
 
 
     try{
-      //AuthorList authorList = this.convertAuthor.convertEntityListToModelList(this.authorService.findAll());
+      AuthorList authorList = this.convertAuthor.convertEntityListToModelList(this.authorService.findAll());
       return new ResponseEntity<>(authorList, HttpStatus.OK);
     }catch(Exception e){
       throw e;
@@ -145,6 +145,10 @@ public class AuthorController extends BaseController implements AuthorsApi {
 
   public HalLink getAuthorLink(Long id) {
     return getHalGetLink(methodOn(this.getClass()).getAuthorById(id));
+  }
+
+  public static HalLink getAuthorLinkStatic(Long id) {
+    return getHalGetLink(methodOn((new AuthorController()).getClass()).getAuthorById(id));
   }
 
 }

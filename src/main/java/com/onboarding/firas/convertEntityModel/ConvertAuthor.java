@@ -3,6 +3,7 @@ package com.onboarding.firas.convertEntityModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.onboarding.firas.accessingdatajpa.AuthorEntity;
+import com.onboarding.firas.authors.rest.AuthorController;
 import com.onboarding.firas.generated.model.Author;
 import com.onboarding.firas.generated.model.AuthorLinks;
 import com.onboarding.firas.generated.model.AuthorList;
@@ -16,8 +17,8 @@ public class ConvertAuthor {
   public Author convertEntityToModel(AuthorEntity entityAuthor){
     Author author = new Author().id(entityAuthor.getId()).
         firstname(entityAuthor.getFirstName()).
-        lastname(entityAuthor.getLastName())
-        .links(new AuthorLinks().self(getAuthorLink(1)));;
+        lastname(entityAuthor.getLastName());
+    author.links(new AuthorLinks().self(AuthorController.getAuthorLinkStatic(entityAuthor.getId())));
     return author;
   }
   public AuthorEntity convertModelToEntity(Author modelAuthor){
@@ -35,8 +36,5 @@ public class ConvertAuthor {
     return list;
   }
 
-  private HalLink getAuthorLink(Long id) {
-    return getHalGetLink(methodOn(this.getClass()).getAuthorById(id));
-  }
 
 }

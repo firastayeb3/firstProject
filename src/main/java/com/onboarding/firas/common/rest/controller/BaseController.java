@@ -9,7 +9,7 @@ import org.springframework.http.HttpEntity;
 
 public abstract class BaseController {
 
-  protected HalLink getHalGetLink(HttpEntity httpEntity) {
+  protected static HalLink  getHalGetLink(HttpEntity httpEntity) {
     return getHalLink(httpEntity, MethodEnum.GET);
   }
 

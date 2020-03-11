@@ -2,6 +2,9 @@ package com.onboarding.firas.convertEntityModel;
 
 import com.onboarding.firas.accessingdatajpa.AuthorService;
 import com.onboarding.firas.accessingdatajpa.BlogEntity;
+import com.onboarding.firas.authors.rest.AuthorController;
+import com.onboarding.firas.blogs.rest.BlogController;
+import com.onboarding.firas.generated.model.AuthorLinks;
 import com.onboarding.firas.generated.model.Blog;
 import com.onboarding.firas.generated.model.BlogList;
 import java.util.List;
@@ -17,6 +20,7 @@ public class ConvertBlog {
         .text(entityBlog.getTitle())
         .title(entityBlog.getTitle())
         .author(entityBlog.getAuthor().getId().toString());
+    blog.links(new AuthorLinks().self(BlogController.getBlogLinkStatic(entityBlog.getId())));
 
     return blog;
 

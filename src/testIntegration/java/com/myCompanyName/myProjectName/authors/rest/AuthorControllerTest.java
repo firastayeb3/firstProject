@@ -51,4 +51,34 @@ public class AuthorControllerTest extends WebMvcTest {
         .andExpect(ApiMatchers.responseMatchesModel(Error.class));
   }
 
+  // tests implemented to test JPA an REST API integration
+
+  /*@Test
+  public void GIVEN_not_existing_id_WHEN_Delete_author_by_id_THEN_response_is_error()
+      throws Exception {
+    // Arrange
+    String id = "0";
+
+    // Act
+    performGET(URL + id)
+
+        // Assert
+        .andExpect(status().isInternalServerError())
+        .andExpect(ApiMatchers.responseMatchesModel(Error.class));
+  }
+
+  @Test
+  public void GIVEN_not_existing_id_WHEN_get_author_by_id_THEN_response_is_error()
+      throws Exception {
+    // Arrange
+    String id = "0";
+
+    // Act
+    performGET(URL + id)
+
+        // Assert
+        .andExpect(status().isInternalServerError())
+        .andExpect(ApiMatchers.responseMatchesModel(Error.class));
+  }*/
+
 }

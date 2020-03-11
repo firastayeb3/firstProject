@@ -1,11 +1,15 @@
 package com.onboarding.firas.blogs.rest;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import com.onboarding.firas.accessingdatajpa.BlogService;
+import com.onboarding.firas.authors.rest.AuthorController;
 import com.onboarding.firas.common.rest.controller.BaseController;
 import com.onboarding.firas.convertEntityModel.ConvertBlog;
 import com.onboarding.firas.generated.BlogsApi;
 import com.onboarding.firas.generated.model.Blog;
 import com.onboarding.firas.generated.model.BlogList;
+import com.onboarding.firas.generated.model.HalLink;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +79,14 @@ public class BlogController extends BaseController implements BlogsApi {
     }catch(Exception e){
       return new ResponseEntity<>(blog, HttpStatus.CONFLICT);
     }
+  }
+
+  public HalLink getBlogLink(Long id) {
+    return getHalGetLink(methodOn(this.getClass()).getBlogById(id));
+  }
+
+  public static HalLink getBlogLinkStatic(Long id) {
+    return getHalGetLink(methodOn((new BlogController()).getClass()).getBlogById(id));
   }
 
 }
