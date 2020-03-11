@@ -38,6 +38,16 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
+	//jpa
+	runtime  'com.h2database:h2'
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	compile group: 'org.projectlombok', name: 'lombok'
+
+	//rest
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 }
 
 sourceSets {

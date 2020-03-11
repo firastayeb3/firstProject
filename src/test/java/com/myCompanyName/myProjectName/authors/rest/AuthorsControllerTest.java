@@ -62,8 +62,11 @@ public class AuthorsControllerTest {
     // Assert
     Author author = response.getBody();
     assertThat(author, is(notNullValue()));
+    assertThat(author.getId(), is(equalTo("1")));
     assertThat(author.getFirstname(), is(equalTo("Max")));
     assertThat(author.getLastname(), is(equalTo("Mustermann")));
   }
+
+
 
 }
