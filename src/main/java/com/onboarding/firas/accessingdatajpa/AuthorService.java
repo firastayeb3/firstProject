@@ -28,8 +28,8 @@ public class AuthorService  {
 
   }
 
-  public void addAuthor(AuthorEntity author){
-    this.authorRepository.save(author);
+  public AuthorEntity addAuthor(AuthorEntity author){
+    return this.authorRepository.save(author);
   }
 
   public AuthorEntity findById(Long id){
@@ -43,8 +43,14 @@ public class AuthorService  {
     this.authorRepository.deleteById(id);
   }
 
-  public void editAuthor(AuthorEntity authorEntity){
-    this.authorRepository.save(authorEntity);
+  public AuthorEntity editAuthor(Long id, AuthorEntity authorEntity){
+    AuthorEntity newAuthor = this.findById(id);
+    newAuthor.setFirstName(authorEntity.getFirstName());
+    newAuthor.setLastName(authorEntity.getLastName());
+    if (!authorEntity.getBlogs().isEmpty()){
+      newAuthor.setBlogs(authorEntity.getBlogs());
+    }
+    return this.authorRepository.save(newAuthor);
 
   }
 

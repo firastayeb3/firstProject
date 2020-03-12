@@ -2,6 +2,8 @@ package com.onboarding.firas.blogs.rest;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import com.onboarding.firas.accessingdatajpa.AuthorService;
+import com.onboarding.firas.accessingdatajpa.BlogEntity;
 import com.onboarding.firas.accessingdatajpa.BlogService;
 import com.onboarding.firas.authors.rest.AuthorController;
 import com.onboarding.firas.common.rest.controller.BaseController;
@@ -9,6 +11,7 @@ import com.onboarding.firas.convertEntityModel.ConvertBlog;
 import com.onboarding.firas.generated.BlogsApi;
 import com.onboarding.firas.generated.model.Blog;
 import com.onboarding.firas.generated.model.BlogList;
+import com.onboarding.firas.generated.model.BlogPOST;
 import com.onboarding.firas.generated.model.HalLink;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
@@ -25,6 +28,10 @@ public class BlogController extends BaseController implements BlogsApi {
 
   @Autowired
   private BlogService blogService;
+
+  @Autowired
+  private AuthorService authorService;
+
 
   @Autowired
   private ConvertBlog convertBlog;
@@ -72,21 +79,40 @@ public class BlogController extends BaseController implements BlogsApi {
   }
 
   @Override
-  public ResponseEntity<Blog> addBlog(@ApiParam(value = "Blog to add. Cannot null or empty." ,required=true )  @Valid @RequestBody Blog blog){
+  public ResponseEntity<Blog> addBlog(@ApiParam(value = "Blog to add. Cannot null or empty." ,required=true )  @Valid @RequestBody BlogPOST blog){
     try{
-      this.blogService.addBlog(this.convertBlog.convertModelToEntity(blog));
-      return new ResponseEntity<>(blog, HttpStatus.OK);
+      BlogEntity blogEntity = this.convertBlog.convertModelToEntity(blog);
+      Blog blogAdded = this.convertBlog.convertEntityToModel(
+          this.blogService.addBlog(blogEntity)
+      );
+      this.authorService.editAuthor(blogEntity.getAuthor().getId(), blogEntity.getAuthor());
+      return new ResponseEntity<>(blogAdded, HttpStatus.OK);
     }catch(Exception e){
-      return new ResponseEntity<>(blog, HttpStatus.CONFLICT);
+      throw e;
+      //return new ResponseEntity<>(null, HttpStatus.CONFLICT);
     }
   }
 
-  public HalLink getBlogLink(Long id) {
-    return getHalGetLink(methodOn(this.getClass()).getBlogById(id));
+  @Override
+  public ResponseEntity<Blog> updateBlog(
+      @ApiParam(value = "Id of the blog to be update. Cannot be empty.",required=true)
+      @PathVariable("id") Long id,
+
+      @ApiParam(value = "Blog to update. Cannot null or empty." ,required=true )
+      @Valid @RequestBody BlogPOST blogPOST
+  ){
+    try{
+      Blog blogUpdated = this.convertBlog.convertEntityToModel(
+          this.blogService.editBlog(id, this.convertBlog.convertModelToEntity(blogPOST))
+      );
+      return new ResponseEntity<>(blogUpdated , HttpStatus.OK);
+    }catch(Exception e){
+      return new ResponseEntity<>(null , HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  public static HalLink getBlogLinkStatic(Long id) {
-    return getHalGetLink(methodOn((new BlogController()).getClass()).getBlogById(id));
-  }
+  /*public HalLink getBlogLink(Long id) {
+    return getHalGetLink(methodOn(this.getClass()).getBlogById(id));
+  }*/
 
 }

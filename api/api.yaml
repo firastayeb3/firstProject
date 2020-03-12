@@ -50,10 +50,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/author'
+              $ref: '#/components/schemas/authorPOST'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/author'
+              $ref: '#/components/schemas/authorPOST'
         required: true
       responses:
         201:
@@ -100,9 +100,9 @@ paths:
       requestBody:
         description: Author to update. Cannot null or empty.
         content:
-          application/hal+json:
+          application/json:
             schema:
-              $ref: '#/components/schemas/author'
+              $ref: '#/components/schemas/authorPOST'
         required: true
       responses:
         404:
@@ -113,6 +113,10 @@ paths:
           description: Invalid ID supplied
         200:
           description: successful operation
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/author'
 
     delete:
       tags:
@@ -170,10 +174,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/blog'
+              $ref: '#/components/schemas/blogPOST'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/blog'
+              $ref: '#/components/schemas/blogPOST'
         required: true
       responses:
         201:
@@ -220,9 +224,9 @@ paths:
       requestBody:
         description: Blog to update. Cannot null or empty.
         content:
-          application/hal+json:
+          application/json:
             schema:
-              $ref: '#/components/schemas/blog'
+              $ref: '#/components/schemas/blogPOST'
         required: true
       responses:
         404:
@@ -233,6 +237,10 @@ paths:
           description: Invalid ID supplied
         200:
           description: successful operation
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/blog'
 
     delete:
       tags:
@@ -294,7 +302,7 @@ components:
 
     author:
       type: object
-      description: author with first and last name
+      description: author with first and last name from DB to json
       required:
         - id
         - firstname
@@ -320,9 +328,21 @@ components:
             self:
               $ref: '#/components/schemas/halLink'
 
+    authorPOST:
+      type: object
+      description: author with first and last name  from json to DB
+      required:
+        - firstname
+        - lastname
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+
     blog:
       type: object
-      description: author with first and last name
+      description: blog from DB to json
       required:
         - id
         - title
@@ -345,6 +365,21 @@ components:
           properties:
             self:
               $ref: '#/components/schemas/halLink'
+
+    blogPOST:
+      type: object
+      description: blog from json to DB
+      required:
+        - title
+        - text
+        - author
+      properties:
+        title:
+          type: string
+        text:
+          type: string
+        author:
+          type: string
 
     blogList:
       type: object

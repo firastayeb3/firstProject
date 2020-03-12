@@ -12,6 +12,7 @@ import com.onboarding.firas.generated.model.Author;
 import com.onboarding.firas.generated.model.AuthorLinks;
 import com.onboarding.firas.generated.model.AuthorList;
 import com.onboarding.firas.generated.model.AuthorListLinks;
+import com.onboarding.firas.generated.model.AuthorPOST;
 import com.onboarding.firas.generated.model.Error;
 import com.onboarding.firas.generated.model.HalLink;
 import io.swagger.annotations.ApiParam;
@@ -101,12 +102,14 @@ public class AuthorController extends BaseController implements AuthorsApi {
   }
 
   @Override
-  public ResponseEntity<Author> addAuthor(@ApiParam(value = "Author to add. Cannot null or empty." ,required=true )  @Valid @RequestBody Author author){
+  public ResponseEntity<Author> addAuthor(@ApiParam(value = "Author to add. Cannot null or empty." ,required=true )  @Valid @RequestBody AuthorPOST author){
     try{
-      this.authorService.addAuthor(this.convertAuthor.convertModelToEntity(author));
-      return new ResponseEntity<>(author, HttpStatus.OK);
+      Author authorAdded = this.convertAuthor.convertEntityToModel(
+          this.authorService.addAuthor(this.convertAuthor.convertModelToEntity(author))
+      );
+      return new ResponseEntity<>(authorAdded, HttpStatus.OK);
     }catch(Exception e){
-      return new ResponseEntity<>(author, HttpStatus.CONFLICT);
+      return new ResponseEntity<>(null, HttpStatus.CONFLICT);
     }
   }
 
@@ -127,28 +130,27 @@ public class AuthorController extends BaseController implements AuthorsApi {
   }
 
   @Override
-  public ResponseEntity<Void> updateAuthor(
+  public ResponseEntity<Author> updateAuthor(
       @ApiParam(value = "Id of the author to be update. Cannot be empty.",required=true)
       @PathVariable("id") Long id,
       @ApiParam(value = "Author to update. Cannot null or empty." ,required=true )
-      @Valid @RequestBody Author author){
+      @Valid @RequestBody AuthorPOST author){
 
     try{
-      author.setId(id);
-      this.authorService.editAuthor(this.convertAuthor.convertModelToEntity(author));
-      return new ResponseEntity<>(null , HttpStatus.OK);
+      Author authorUpdated = this.convertAuthor.convertEntityToModel(
+          this.authorService.editAuthor(id, this.convertAuthor.convertModelToEntity(author))
+      );
+      return new ResponseEntity<>(authorUpdated , HttpStatus.OK);
     }catch(Exception e){
-      throw e;
+      return new ResponseEntity<>(null , HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
   }
 
-  public HalLink getAuthorLink(Long id) {
+  /*public HalLink getAuthorLink(Long id) {
     return getHalGetLink(methodOn(this.getClass()).getAuthorById(id));
-  }
+  }*/
 
-  public static HalLink getAuthorLinkStatic(Long id) {
-    return getHalGetLink(methodOn((new AuthorController()).getClass()).getAuthorById(id));
-  }
+
 
 }

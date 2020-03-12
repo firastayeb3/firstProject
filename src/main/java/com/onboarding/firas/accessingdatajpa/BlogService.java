@@ -26,8 +26,8 @@ public class BlogService {
 
   }
 
-  public void addBlog(BlogEntity blog){
-    this.blogRepository.save(blog);
+  public BlogEntity addBlog(BlogEntity blog){
+    return this.blogRepository.save(blog);
   }
 
   public BlogEntity findById(Long id){
@@ -36,5 +36,12 @@ public class BlogService {
 
   public void deleteBlog(Long id){
     this.blogRepository.deleteById(id);
+  }
+
+  public BlogEntity editBlog(Long id, BlogEntity newBlog){
+    BlogEntity dbBlog = this.blogRepository.findById(id).get();
+    dbBlog.setText(newBlog.getText());
+    dbBlog.setTitle(newBlog.getTitle());
+    return this.blogRepository.save(newBlog);
   }
 }
