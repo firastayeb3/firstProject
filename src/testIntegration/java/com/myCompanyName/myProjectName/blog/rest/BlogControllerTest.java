@@ -1,7 +1,9 @@
 package com.onboarding.firas.blog.rest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onboarding.firas.ApiMatchers;
 import com.onboarding.firas.WebMvcTest;
 import com.onboarding.firas.generated.model.Author;
@@ -9,6 +11,7 @@ import com.onboarding.firas.generated.model.AuthorList;
 import com.onboarding.firas.generated.model.Blog;
 import com.onboarding.firas.generated.model.BlogList;
 import com.onboarding.firas.generated.model.Error;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 public class BlogControllerTest extends WebMvcTest {
@@ -95,13 +98,9 @@ public class BlogControllerTest extends WebMvcTest {
         + "  \"text\": \"string\",\n"
         + "  \"author\": \"1\"\n"
         + "}")
-
-        // Assert
-        .andExpect(status().isOk())
-        .andExpect(ApiMatchers.responseMatchesModel(Blog.class))
         .andReturn().getResponse().getContentAsString();
 
-    Long id = Long.parseLong(postResult.split(",")[0].split(":")[1]);
+    Long id = (new ObjectMapper()).readValue(postResult, Blog.class).getId();
     performDELETE(URL + id)
 
         // Assert
@@ -118,36 +117,21 @@ public class BlogControllerTest extends WebMvcTest {
         + "  \"text\": \"string\",\n"
         + "  \"author\": \"1\"\n"
         + "}")
-
-        // Assert
-        .andExpect(status().isOk())
-        .andExpect(ApiMatchers.responseMatchesModel(Blog.class))
         .andReturn().getResponse().getContentAsString();
 
-    Long id = Long.parseLong(postResult.split(",")[0].split(":")[1]);
+    Long id = (new ObjectMapper()).readValue(postResult, Blog.class).getId();
 
     String putResult = performPUT(URL +id,"{\n"
         + "  \"title\": \"sstring\",\n"
         + "  \"text\": \"string\",\n"
         + "  \"author\": \"1\"\n"
         + "}")
-
-        // Assert
-        .andExpect(status().isOk())
-        .andExpect(ApiMatchers.responseMatchesModel(Blog.class))
         .andReturn().getResponse().getContentAsString();
 
-    String title = putResult.split(",")[1].split(":")[1];
-    /*log.info(postResult);
-    log.info(putResult);
+    Blog returnedBlog = (new ObjectMapper()).readValue(putResult, Blog.class);
+    // Assert
+    assertThat(returnedBlog.getTitle(), Matchers.is(Matchers.equalTo("sstring")) );
 
-    log.info(firstName);
-    log.info("ffiras");
-    log.info(""+);*/
-
-    if (!(title.compareTo("\"sstring\"")==0)){
-      throw new Exception();
-    }
 
   }
 }
