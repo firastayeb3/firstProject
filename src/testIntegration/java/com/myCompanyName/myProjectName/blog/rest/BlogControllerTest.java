@@ -134,4 +134,50 @@ public class BlogControllerTest extends WebMvcTest {
 
 
   }
+  //hibernate search
+  @Test
+  public void Search_for_Blog_Using_Author_name_THEN_response_is_ok()
+      throws Exception {
+
+    // Act
+    String postResult = performPOST(URL,"{\n"
+        + "  \"title\": \"string\",\n"
+        + "  \"text\": \"string\",\n"
+        + "  \"author\": \"1\"\n"
+        + "}")
+        .andReturn().getResponse().getContentAsString();
+
+    String firstName = "max";
+
+    String putResult = performGET(URL+ "search/"+ firstName)
+        .andReturn().getResponse().getContentAsString();
+
+    BlogList returnedBlog = (new ObjectMapper()).readValue(putResult, BlogList.class);
+    // Assert
+    assertThat(returnedBlog.getEmbedded().size(), Matchers.is(Matchers.equalTo(1)) );
+  }
+
+
+  @Test
+  public void Search_for_Blog_Using_Author_name_THEN_response_is_empty()
+      throws Exception {
+
+    // Act
+    String postResult = performPOST(URL,"{\n"
+        + "  \"title\": \"string\",\n"
+        + "  \"text\": \"string\",\n"
+        + "  \"author\": \"1\"\n"
+        + "}")
+        .andReturn().getResponse().getContentAsString();
+
+    String firstName = "will not be found";
+
+    String putResult = performGET(URL+ "search/"+ firstName)
+        .andReturn().getResponse().getContentAsString();
+
+    BlogList returnedBlog = (new ObjectMapper()).readValue(putResult, BlogList.class);
+    // Assert
+    assertThat(returnedBlog.getEmbedded().size(), Matchers.is(Matchers.equalTo(0)) );
+  }
+
 }

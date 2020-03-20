@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 @AutoConfigureMockMvc
 @ActiveProfiles("web_integration_test")
-public abstract class WebMvcTest extends IntegrationTests {
+public abstract class WebMvcTest extends com.onboarding.firas.IntegrationTests {
 
   @Autowired
   protected MockMvc mockMvc;

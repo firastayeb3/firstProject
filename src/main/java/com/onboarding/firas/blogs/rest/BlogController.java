@@ -111,6 +111,18 @@ public class BlogController extends BaseController implements BlogsApi {
     }
   }
 
+  @Override
+  public ResponseEntity<BlogList> getBlogsSearch(@ApiParam(value = "string to search in blogs",required=true) @PathVariable("stringToFind") String stringToFind)
+      throws InterruptedException {
+    try {
+      BlogList blogList = this.convertBlog.convertEntityListToModelList(this.blogService.findBlog(stringToFind));
+      return new ResponseEntity<>(blogList , HttpStatus.OK);
+    }catch (Exception e){
+      throw e;
+    }
+  }
+
+
   /*public HalLink getBlogLink(Long id) {
     return getHalGetLink(methodOn(this.getClass()).getBlogById(id));
   }*/

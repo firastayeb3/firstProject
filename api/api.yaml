@@ -260,6 +260,25 @@ paths:
         200:
           description: successful operation
 
+  /blogs/search/{stringToFind}:
+    get:
+      tags:
+        - blog
+      operationId: getBlogsSearch
+      parameters:
+        - name: stringToFind
+          description: string to search in blogs
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: operation successful
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/blogList'
+
   /testVI:
     get:
       tags:

@@ -45,7 +45,8 @@ public class AuthorsControllerTest {
     AuthorController authorController = new AuthorController();
 
     // Act
-    ResponseEntity<Author> author = authorController.getAuthorById(1);
+    ResponseEntity<Author> author = authorController.getAuthorById(1L);
+
 
     // Assert
     assertThat(author, is(notNullValue()));
@@ -57,7 +58,7 @@ public class AuthorsControllerTest {
     AuthorController authorController = new AuthorController();
 
     // Act
-    ResponseEntity<Author> response = authorController.getAuthorById(1);
+    ResponseEntity<Author> response = authorController.getAuthorById(1L);
 
     // Assert
     Author author = response.getBody();

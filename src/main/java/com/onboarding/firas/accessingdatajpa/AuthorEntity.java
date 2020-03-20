@@ -9,20 +9,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 @Entity
+@Indexed
 public class AuthorEntity {
 
   @Id
   @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
+
+  @Field(name = "firstName")
   private String firstName;
+
+  @Field(name = "lastName")
   private String lastName;
 
   @OneToMany(targetEntity = BlogEntity.class, mappedBy = "author", orphanRemoval = true, cascade = CascadeType.ALL,  fetch= FetchType.EAGER)
   private List<BlogEntity> blogs = new ArrayList<BlogEntity>();
 
-  protected AuthorEntity(){};
+  public AuthorEntity(){};
 
   public AuthorEntity(String firstName, String lastName) {
     this.firstName = firstName;

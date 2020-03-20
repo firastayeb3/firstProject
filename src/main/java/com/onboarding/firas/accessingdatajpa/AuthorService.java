@@ -3,8 +3,11 @@ package com.onboarding.firas.accessingdatajpa;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -53,6 +56,7 @@ public class AuthorService  {
     return this.authorRepository.save(newAuthor);
 
   }
+
 
 
 

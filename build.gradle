@@ -5,6 +5,7 @@ plugins {
 	id 'idea'
 	id 'jacoco'
 	id 'org.openapi.generator' version '4.2.1'
+	id "com.needhamsoftware.solr-gradle" version "1.0.2"
 }
 
 group = 'com.onboarding.firas'
@@ -47,6 +48,11 @@ dependencies {
 
 	//rest
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//hibernate search
+	compile 'org.hibernate:hibernate-search-orm:5.10.8.Final'
+	//compile 'org.hibernate:hibernate-core:5.3.10.Final'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
 
 }
 
